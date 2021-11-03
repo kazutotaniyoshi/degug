@@ -21,22 +21,30 @@
           <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success edit_book_#{@book.id}" %></td>
           <td><%= link_to 'Destroy', book_path(@book), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@book.id}"%></td>
           <% end %>
-          <div>
-            <p>コメント件数：<%= @post_image.post_comments.count %></p>
-            <% @post_image.post_comments.each do |post_comment| %>
-              <p><%= attachment_image_tag(book.user, :profile_image, :fill, 50, 50, fallback: "no-image-icon.jpg") %></p>
-                <%= post_comment.user.name %>
-                <%= post_comment.created_at.strftime('%Y/%m/%d') %><%= post_comment.comment %>
-              <% end %>
-            </div>
+          <td>コメント件数：<%= @book.post_comments.count %></td>
+        </tr>
+      </table>
+        <div>
+          <table>
+            <% @book.post_comments.each do |post_comment| %>
+            <tr>
+              <td><%= attachment_image_tag(post_comment.user, :profile_image, :fill, 50, 50, fallback: "no-image-icon.jpg") %></td>
+                <td><%= post_comment.user.name %></td>
+                <td><%= post_comment.created_at.strftime('%Y/%m/%d') %><%= post_comment.comment %></td>
+                <td><% if post_comment.user == current_user %>
+                      <%= link_to "削除", book_post_comment_path(post_comment.book, post_comment), method: :delete %>
+                    <% end %>
+                </td>
+            </tr>
+            <% end %>
+          </table>
+        </div>
             <div>
-            <%= form_with(model:[@book.id, @post_comment], local: true) do |f| %>
+            <%= form_with(model:[@book, @post_comment], local: true) do |f| %>
               <%= f.text_area :comment, rows:'5',placeholder: "コメントをここに" %>
               <%= f.submit "送信する" %>
             <% end %>
           </div>
-        </tr>
-      </table>
     </div>
   </div>
 </div>
