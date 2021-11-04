@@ -1,7 +1,7 @@
 <p id="notice"></p>
   <div class='container px-5 px-sm-0'>
     <div class='row'>
-      <div class='col-md-3'>
+      <div class='col-md-6'>
         <table class='table'>
           <tr><%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %></tr>
           <tr>
@@ -9,8 +9,22 @@
         	  <th><%= user.name %></th>
           </tr>
           <tr>
-        	  <th>introduction</th>
-        	  <th><%= user.introduction %></th>
+            <th>introduction</th>
+            <th><%= user.introduction %></th>
+          </tr>
+          <tr>
+            <th>followers:
+            <%= link_to followers_user_path(user.id) do %>
+              <%=user.followings.count %>
+            </th>
+            <% end %>
+          </tr>
+          <tr>
+            <th>followings:
+            <%= link_to followings_user_path(user.id) do %>
+            <%=user.followers.count %>
+          </th>
+            <% end %>
           </tr>
         </table>
         <div class='row'>
