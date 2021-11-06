@@ -11,8 +11,9 @@ Rails.application.routes.draw do
      get :followings
      get :followers
    end
-
   end
+  
+  get '/search', to: 'searchs#index'
 
   root to: 'homes#top'
   get 'home/about' => 'homes#about'
